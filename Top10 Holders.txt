@@ -1,0 +1,27 @@
+
+WITH transfers AS (
+  SELECT
+    evt_block_time,
+    "from_address" AS Holder_Address,
+    -op_amount_decimal AS amount
+  FROM op_token_distributions_optimism.transfer_mapping
+  UNION ALL
+  SELECT
+    evt_block_time,
+    "to_address" AS Holder_Address,
+    op_amount_decimal AS amount
+  FROM op_token_distributions_optimism.transfer_mapping
+), query AS (
+  SELECT
+    Holder_Address,
+    SUM(amount) AS balance
+  FROM transfers
+  GROUP BY
+    1
+  ORDER BY
+    2 DESC
+  LIMIT 10
+)
+SELECT
+  *
+FROM query
