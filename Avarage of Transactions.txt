@@ -1,9 +1,0 @@
- SELECT
-  AVG(transaction_count) AS avg_daily_transactions
-FROM (
-  SELECT
-    block_date,
-    COUNT(*) AS transaction_count
-  FROM polygon.transactions
-  GROUP BY block_date
-) AS daily_transactions
